@@ -22,6 +22,24 @@ pipeline {
                 '''
             }
         } 
+        stage('Security Scan') {
+            steps {
+                sh '''
+                    oc process -f kubefiles/security-scan-template.yml \
+                    -n eyrptl-monitoring-lab \
+                    -p QUAY_USER=marchioni_francesco \
+                    -p QUAY_REPOSITORY=do400-monitoring-lab \
+                    -p APP_NAME=calculator \
+                    -p CVE_CODE=CVE-2021-23840 \
+                    | oc replace --force \
+                    -n eyrptl-monitoring-lab -f -
+                '''
+                sh '''
+                    ./scripts/check-job-state.sh "calculator-trivy" \
+                    "eyrptl-monitoring-lab"
+                '''
+            }
+        }
         stage('Deploy') {
             steps {
                 sh '''
