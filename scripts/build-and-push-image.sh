@@ -11,7 +11,7 @@ do
 done
 
 ./mvnw package -DskipTests \
-  -Dquarkus.jib.base-jvm-image=quay.io/redhattraining/do400-java-alpine-openjdk11-jre:latest \
+  -Dquarkus.jib.base-jvm-image=registry.access.redhat.com/ubi8/openjdk-11:1.3-10 \
   -Dquarkus.container-image.build=true \
   -Dquarkus.container-image.registry=quay.io \
   -Dquarkus.container-image.group="${quay_user}" \
