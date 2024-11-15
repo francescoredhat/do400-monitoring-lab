@@ -22,6 +22,15 @@ pipeline {
                 '''
             }
         } 
+        stage('Deploy') {
+            steps {
+                sh '''
+                    ./scripts/redeploy.sh \
+                        -d calculator \
+                        -n eyrptl-monitoring-lab
+                '''
+            }
+        }
     }
     post {
         failure {
